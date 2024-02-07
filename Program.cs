@@ -33,6 +33,9 @@ builder.Services.AddScoped<AccountRepo>();
 builder.Services.AddScoped<IncidentService>();
 builder.Services.AddScoped<IncidentRepo>();
 
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UserRepo>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

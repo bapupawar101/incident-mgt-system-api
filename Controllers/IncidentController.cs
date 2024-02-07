@@ -23,6 +23,7 @@ public class IncidentController : ControllerBase
     public IncidentSaveAPIResponse Save([FromBody] IncidentSaveAPIRequest request)
     {
         var userId = HttpContext.User.FindFirst("Id").Value;
+        
         var response = _incService.SaveIncident(request, Int32.Parse(userId));
         return response;
     }
@@ -33,6 +34,22 @@ public class IncidentController : ControllerBase
     {
         var userId = HttpContext.User.FindFirst("Id").Value;
         var response = _incService.SaveIncidentComment(request, Int32.Parse(userId));
+        return response;
+    }
+
+    [HttpPut(Name = "UpdateComment")]
+    [Authorize]
+    public IncidentCommentUpdateAPIResponse UpdateComment([FromBody] IncidentCommentUpdateApiRequest request)
+    {
+        var response = _incService.UpdateIncidentComment(request);
+        return response;
+    }
+    
+    [HttpGet(Name = "GetCommentById/{id}")]
+    [Authorize]
+    public IncidentComments GetCommentById(int id)
+    {
+        var response = _incService.GetCommentById(id);
         return response;
     }
 
@@ -53,4 +70,21 @@ public class IncidentController : ControllerBase
         var response = _incService.GetById(id);
         return response;
     }
+
+    [HttpDelete(Name = "Delete/{id:int}")]
+    [Authorize]
+    public IncidentMaster Delete(int id)
+    {
+        var response = _incService.Delete(id);
+        return response;
+    }
+
+    [HttpPut(Name = "Update")]
+    [Authorize]
+    public IncidentMaster Update([FromBody] IncidentUpdateApiRequest apiRequest)
+    {
+        var response = _incService.Update(apiRequest);
+        return response;
+    }
+
 }

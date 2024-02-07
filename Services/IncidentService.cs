@@ -86,5 +86,49 @@ namespace IncidentMgtSystem.API.Services
 
             return result;
         }
+
+        public IncidentMaster Delete(int id)
+        {
+            var result = _incRepo.Delete(id);
+
+            return result;
+        }
+
+        public IncidentMaster Update(IncidentUpdateApiRequest apiRequest)
+        {
+            var result = _incRepo.Update(apiRequest);
+
+            return result;
+        }
+
+        public IncidentCommentUpdateAPIResponse UpdateIncidentComment(IncidentCommentUpdateApiRequest request)
+        {
+            IncidentComments incidentComment = new IncidentComments()
+            {
+                Message = request.Message,
+                IncId = request.IncId
+            };
+
+            var result = _incRepo.UpdateIncidentComment(incidentComment);
+            IncidentCommentUpdateAPIResponse response = new IncidentCommentUpdateAPIResponse();
+            if (!result)
+            {
+                response.Success = false;
+                response.ErrorMessage = "Some error occured at server side.";
+            }
+            else
+            {
+                response.Success = true;
+            }
+
+            return response;
+        }
+
+        public IncidentComments GetCommentById(int id)
+        {
+            var response = _incRepo.GetCommentById(id);
+            return response;
+        }
+
     }
 }

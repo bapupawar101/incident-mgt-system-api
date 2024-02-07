@@ -1,4 +1,6 @@
-﻿using IncidentMgtSystem.API.Models;
+﻿using IncidentMgtSystem.API.DTOs;
+using IncidentMgtSystem.API.Models;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace IncidentMgtSystem.API.Repositories
 {
@@ -22,6 +24,26 @@ namespace IncidentMgtSystem.API.Repositories
             return _dbContext.SaveChanges() > 0;
         }
 
+        public bool UpdateIncidentComment(IncidentComments incidentComment)
+        {
+            var comment = _dbContext.tbl_IncidentComments.Where(c => c.IncId == incidentComment.IncId).FirstOrDefault();
+
+            if(comment != null)
+            {
+                comment.Message = incidentComment.Message;
+                return _dbContext.SaveChanges() > 0;
+            }
+
+            // Not Found
+            return false;
+        }
+
+        public IncidentComments GetCommentById(int id)
+        {
+            var comment = _dbContext.tbl_IncidentComments.Where(c => c.Id == id).FirstOrDefault();
+            return comment;
+        }
+
         public List<IncidentMaster> GetAll()
         {
             var result = _dbContext.tbl_IncidentMaster.ToList();
@@ -31,6 +53,40 @@ namespace IncidentMgtSystem.API.Repositories
         public IncidentMaster GetById(int id)
         {
             var result = _dbContext.tbl_IncidentMaster.Where(p => p.Id == id).FirstOrDefault();
+            return result;
+        }
+
+        public IncidentMaster Delete(int id)
+        {
+            var result = _dbContext.tbl_IncidentMaster.Where(p => p.Id == id).FirstOrDefault();
+
+            if(result != null)
+            {
+                _dbContext.tbl_IncidentMaster.Remove(result);
+            }
+
+            return result;
+        }
+
+        public IncidentMaster Update(IncidentUpdateApiRequest apiRequest)
+        {
+            var result = _dbContext.tbl_IncidentMaster.Where(p => p.Id == apiRequest.IncId).FirstOrDefault();
+            
+            if (result != null)
+            {
+                var incident = new IncidentMaster()
+                {
+                    Description = apiRequest.Description,
+                    Symptoms = apiRequest.Symptoms,
+                    TenantId = apiRequest.TenantId,
+                    CityId = apiRequest.CityId,
+                    Priority = apiRequest.Priority,
+                    Urgency = apiRequest.Urgency
+                };
+
+                _dbContext.tbl_IncidentMaster.Update(incident);
+            }
+
             return result;
         }
     }
