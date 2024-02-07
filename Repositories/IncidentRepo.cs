@@ -1,6 +1,7 @@
 ﻿using IncidentMgtSystem.API.DTOs;
 using IncidentMgtSystem.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace IncidentMgtSystem.API.Repositories
@@ -42,6 +43,12 @@ namespace IncidentMgtSystem.API.Repositories
         public List<IncidentComments> GetAllComments(int incId)
         {
             var comments = _dbContext.tbl_IncidentComments.Where(c => c.IncId == incId).ToList();
+
+            foreach (var c in comments)
+            {
+                c.User = _dbContext.tbl_User.Where(p => p.Id == c.AddedById).FirstOrDefault();
+            }
+
             return comments;
         }
 

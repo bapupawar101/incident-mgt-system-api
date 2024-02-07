@@ -12,5 +12,8 @@ namespace IncidentMgtSystem.API.Models
 
         [ForeignKey("IncId")]
         public virtual IncidentMaster IncidentMaster { get; set; }
+
+        [NotMapped]
+        public User User { get; set; }
     }
 }
