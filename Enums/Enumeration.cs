@@ -24,4 +24,11 @@
         Medium = 1,
         Low = 2,
     }
+
+    public enum UserRole
+    { 
+        Analyst = 0,
+        Admin = 1,
+        EndUse = 2
+    }
 }

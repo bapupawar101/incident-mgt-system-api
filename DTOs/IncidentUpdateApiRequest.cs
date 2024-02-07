@@ -11,6 +11,7 @@ namespace IncidentMgtSystem.API.DTOs
         public int CityId { get; set; }
         public Priority Priority { get; set; }
         public Urgency Urgency { get; set; }
+        public IncidentStatus Status { get; set; }
     }
 
     public class IncidentUpdateApiResponse : ResponseBase

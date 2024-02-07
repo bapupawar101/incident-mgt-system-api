@@ -1,4 +1,6 @@
-﻿namespace IncidentMgtSystem.API.DTOs
+﻿using IncidentMgtSystem.API.Models;
+
+namespace IncidentMgtSystem.API.DTOs
 {
     public class LoginRequest
     {
@@ -9,5 +11,6 @@
     public class LoginResponse : ResponseBase
     {
         public string JwtToken { get; set; }
+        public User User { get; set; }
     }
 }

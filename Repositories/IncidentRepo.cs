@@ -1,5 +1,6 @@
 ﻿using IncidentMgtSystem.API.DTOs;
 using IncidentMgtSystem.API.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace IncidentMgtSystem.API.Repositories
@@ -38,10 +39,10 @@ namespace IncidentMgtSystem.API.Repositories
             return false;
         }
 
-        public IncidentComments GetCommentById(int id)
+        public List<IncidentComments> GetAllComments(int incId)
         {
-            var comment = _dbContext.tbl_IncidentComments.Where(c => c.Id == id).FirstOrDefault();
-            return comment;
+            var comments = _dbContext.tbl_IncidentComments.Where(c => c.IncId == incId).ToList();
+            return comments;
         }
 
         public List<IncidentMaster> GetAll()
@@ -81,7 +82,8 @@ namespace IncidentMgtSystem.API.Repositories
                     TenantId = apiRequest.TenantId,
                     CityId = apiRequest.CityId,
                     Priority = apiRequest.Priority,
-                    Urgency = apiRequest.Urgency
+                    Urgency = apiRequest.Urgency,
+                    Status = apiRequest.Status
                 };
 
                 _dbContext.tbl_IncidentMaster.Update(incident);

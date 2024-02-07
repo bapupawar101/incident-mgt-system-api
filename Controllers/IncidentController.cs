@@ -45,11 +45,11 @@ public class IncidentController : ControllerBase
         return response;
     }
     
-    [HttpGet(Name = "GetCommentById/{id}")]
+    [HttpGet(Name = "GetAllComments")]
     [Authorize]
-    public IncidentComments GetCommentById(int id)
+    public List<IncidentComments> GetAllComments(int incId)
     {
-        var response = _incService.GetCommentById(id);
+        var response = _incService.GetAllComments(incId);
         return response;
     }
 

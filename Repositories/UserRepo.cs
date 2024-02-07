@@ -1,4 +1,5 @@
 ﻿using IncidentMgtSystem.API.DTOs;
+using IncidentMgtSystem.API.Enums;
 using IncidentMgtSystem.API.Models;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
@@ -24,6 +25,28 @@ namespace IncidentMgtSystem.API.Repositories
             };
 
             _dbContext.tbl_User.Add(user);
+            _dbContext.SaveChanges();
+
+            UserLogin userLogin = new UserLogin()
+            {
+                UserName = requestDto.Username,
+                Password = requestDto.Password,
+                IsActive = true,
+                UserId = user.Id
+            };
+
+            _dbContext.tbl_UserLogin.Add(userLogin);
+
+            foreach (var roleId in requestDto.Roles)
+            {
+                UserRoles userRole = new UserRoles()
+                {
+                    RoleId = (int)roleId,
+                    UserId = user.Id
+                };
+
+                _dbContext.tbl_UserRoles.Add(userRole);
+            }
 
             return _dbContext.SaveChanges() > 0;
         }

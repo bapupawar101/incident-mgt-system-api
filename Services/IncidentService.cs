@@ -48,31 +48,6 @@ namespace IncidentMgtSystem.API.Services
             return response;
         }
 
-        public IncidentCommentSaveAPIResponse SaveIncidentComment(IncidentCommentSaveAPIRequest request, int userId)
-        {
-            IncidentComments incidentComment = new IncidentComments()
-            {
-                IncId = request.IncId,
-                Message = request.Message,
-                CreatedDate = DateTime.Now,
-                AddedById = userId
-            };
-
-            var result = _incRepo.SaveIncidentComment(incidentComment);
-            IncidentCommentSaveAPIResponse response = new IncidentCommentSaveAPIResponse();
-            if (!result)
-            {
-                response.Success = false;
-                response.ErrorMessage = "Some error occured at server side.";
-            }
-            else
-            {
-                response.Success = true;
-            }
-
-            return response;
-        }
-
         public List<IncidentMaster> GetAll()
         {
             var result = _incRepo.GetAll();
@@ -101,6 +76,31 @@ namespace IncidentMgtSystem.API.Services
             return result;
         }
 
+        public IncidentCommentSaveAPIResponse SaveIncidentComment(IncidentCommentSaveAPIRequest request, int userId)
+        {
+            IncidentComments incidentComment = new IncidentComments()
+            {
+                IncId = request.IncId,
+                Message = request.Message,
+                CreatedDate = DateTime.Now,
+                AddedById = userId
+            };
+
+            var result = _incRepo.SaveIncidentComment(incidentComment);
+            IncidentCommentSaveAPIResponse response = new IncidentCommentSaveAPIResponse();
+            if (!result)
+            {
+                response.Success = false;
+                response.ErrorMessage = "Some error occured at server side.";
+            }
+            else
+            {
+                response.Success = true;
+            }
+
+            return response;
+        }
+
         public IncidentCommentUpdateAPIResponse UpdateIncidentComment(IncidentCommentUpdateApiRequest request)
         {
             IncidentComments incidentComment = new IncidentComments()
@@ -124,9 +124,9 @@ namespace IncidentMgtSystem.API.Services
             return response;
         }
 
-        public IncidentComments GetCommentById(int id)
+        public List<IncidentComments> GetAllComments(int incId)
         {
-            var response = _incRepo.GetCommentById(id);
+            var response = _incRepo.GetAllComments(incId);
             return response;
         }
 

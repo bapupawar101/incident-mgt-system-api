@@ -28,6 +28,9 @@ namespace IncidentMgtSystem.API.Services
             }
             else
             {
+                user.User.Roles = _accountRepo.GetUserRoles(user.UserId);
+                response.User = user.User;
+
                 var token = GenerateToken(user.User);
                 response.JwtToken = token;
                 response.Success = true;
